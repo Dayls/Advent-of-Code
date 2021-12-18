@@ -17,10 +17,13 @@ public class Part1 {
             switch(commandText) {
                 case "forward":
                     x += value;
+                    break;
                 case "down":
                     y += value;
+                    break;
                 case "up":
                     y -= value;
+                    break;
             }
         }
 
