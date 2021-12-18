@@ -12,11 +12,16 @@ public class Part2 {
             Integer value = c.value;
 
             switch (commandText) {
-                case "down" -> aim += value;
-                case "up" -> aim -= value;
-                case "forward" -> {
+                case "down":
+                    aim += value;
+                    break;
+                case "up":
+                    aim -= value;
+                    break;
+                case "forward": {
                     x += value;
                     y += (aim * value);
+                    break;
                 }
             }
         }

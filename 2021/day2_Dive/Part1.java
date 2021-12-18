@@ -14,10 +14,13 @@ public class Part1 {
             String commandText = c.command;
             Integer value = c.value;
 
-            switch (commandText) {
-                case "forward" -> x += value;
-                case "down" -> y += value;
-                case "up" -> y -= value;
+            switch(commandText) {
+                case "forward":
+                    x += value;
+                case "down":
+                    y += value;
+                case "up":
+                    y -= value;
             }
         }
 
