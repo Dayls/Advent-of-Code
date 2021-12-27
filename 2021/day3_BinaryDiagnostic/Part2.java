@@ -6,14 +6,28 @@ import java.util.function.BinaryOperator;
 
 public class Part2 {
     public static void main(String[] args) {
-        long oxygenRating, co2Rating;
+        String path = "2021/day3_BinaryDiagnostic/input.txt";
+        int result = getDiagnostic(path);
+        System.out.println(result);
+    }
 
-        Loader dataLoader = new Loader("2021/day3_BinaryDiagnostic/input.txt");
+    public static int getDiagnostic(String filePath) {
+        int oxygenRating = generateOxygenRating(filePath);
+        int co2Rating = generateCO2Rating(filePath);
+        return oxygenRating * co2Rating;
+    }
+
+    private static int generateOxygenRating(String filePath) {
+        Loader dataLoader = new Loader(filePath);
         List<List<Character>> data = dataLoader.getLines();
+        long oxygenRatingBinary = generateOxygenRatingBinary(data);
+        return BinaryConverter.convertToDecimal(oxygenRatingBinary);
+    }
 
+    private static long generateOxygenRatingBinary(List<List<Character>> data) {
         int charIndex = 0;
         while(data.size() != 1) {
-            data = getOxygenRating(data, charIndex);
+            data = getMostFrequent(data, charIndex);
             charIndex++;
         }
 
@@ -21,29 +35,31 @@ public class Part2 {
         for(char c : data.get(0)) {
             stringBuilder.append(c);
         }
-        oxygenRating = Long.parseLong(stringBuilder.toString());
+        return Long.parseLong(stringBuilder.toString());
+    }
 
-        stringBuilder.setLength(0);
-        data = dataLoader.getLines();
-        charIndex = 0;
+    private static int generateCO2Rating(String filePath) {
+        Loader dataLoader = new Loader(filePath);
+        List<List<Character>> data = dataLoader.getLines();
+        long co2RatingBinary = generateCO2RatingBinary(data);
+        return BinaryConverter.convertToDecimal(co2RatingBinary);
+    }
+
+    private static long generateCO2RatingBinary(List<List<Character>> data) {
+        int charIndex = 0;
         while(data.size() != 1) {
-            data = getCO2Rating(data, charIndex);
+            data = getLeastFrequent(data, charIndex);
             charIndex++;
         }
 
+        StringBuilder stringBuilder = new StringBuilder();
         for(char c : data.get(0)) {
             stringBuilder.append(c);
         }
-        co2Rating = Long.parseLong(stringBuilder.toString());
-
-        int oxygenRatingDecimal, co2RatingDecimal;
-        oxygenRatingDecimal = BinaryConverter.convertToDecimal(oxygenRating);
-        co2RatingDecimal = BinaryConverter.convertToDecimal(co2Rating);
-
-        System.out.println(oxygenRatingDecimal * co2RatingDecimal);
+        return Long.parseLong(stringBuilder.toString());
     }
 
-    private static List<List<Character>> getOxygenRating(List<List<Character>> lines, int charIdx) {
+    private static List<List<Character>> getMostFrequent(List<List<Character>> lines, int charIdx) {
         return filter(lines, charIdx, (list0, list1) -> {
             if(list0.size() < list1.size() ||
             list0.size() == list1.size()) return list1;
@@ -51,7 +67,7 @@ public class Part2 {
         });
     }
 
-    private static List<List<Character>> getCO2Rating(List<List<Character>> lines, int charIdx) {
+    private static List<List<Character>> getLeastFrequent(List<List<Character>> lines, int charIdx) {
         return filter(lines, charIdx, (list0, list1) -> {
             if(list0.size() < list1.size() ||
             list0.size() == list1.size()) return  list0;
