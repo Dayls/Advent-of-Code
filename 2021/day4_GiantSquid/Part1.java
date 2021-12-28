@@ -9,6 +9,24 @@ public class Part1 {
         List<Integer> numbers = loader.getNumbers();
         List<Board> boards = loader.getBoards();
 
+        System.out.println(getTheFinalScore(numbers, boards));
+    }
 
+    private static void markAllBoards(List<Board> boards, int markedNumber) {
+        for (Board b : boards) {
+            b.setMarked(markedNumber);
+        }
+    }
+
+    private static int getTheFinalScore(List<Integer> numbers, List<Board> boards) {
+        for (Integer number : numbers) {
+            markAllBoards(boards, number);
+            for (Board b : boards) {
+                if (b.isWinning()) {
+                    return b.getScore();
+                }
+            }
+        }
+        return -1;
     }
 }
